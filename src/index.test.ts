@@ -5,3 +5,9 @@ describe('sum test', () => {
 		expect(1 + 2).toBe(3);
 	});
 });
+
+describe('object test', () => {
+	it('object is equal', () => {
+		expect({ a: 1 }).toEqual({ a: 1 });
+	});
+});

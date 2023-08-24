@@ -1,5 +1,4 @@
 <script>
-    // api url = /api/v1/link
     let url;
 
     async function handleClick() {
