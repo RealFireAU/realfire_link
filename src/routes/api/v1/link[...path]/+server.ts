@@ -12,7 +12,11 @@ export async function POST( { request, platform } ): Promise<Response> {
 
   // parse url and check if it is valid and rewrite it to https if it is not
   try {
-    url = new URL(url).href.replace(/^http:\/\//, 'https://').toLocaleLowerCase();
+    // we need to convert the host and protocol to lowercase to avoid duplicates but we don't want to lowercase the path
+    url = new URL(url).href
+      .replace(/^http:\/\//, 'https://')
+      .replace(/^(https:\/\/)([^/]+)(.*)$/, (_, protocol, host, path) => protocol + host.toLocaleLowerCase() + path);
+    console.log(url);
   } catch (e) {
     return json( { error: 'url is invalid' }, { status: 400 } );
   }

@@ -8,7 +8,7 @@ export async function GET( { params, platform } ) {
   
     // parse url and check if it is valid and rewrite it to https if it is not
     try {
-      url = new URL(link).href.replace(/^http:\/\//, 'https://').toLocaleLowerCase();
+      url = new URL(link).href;
     } catch (e) {
       url = null;
     }
@@ -17,5 +17,5 @@ export async function GET( { params, platform } ) {
       return json( { error: 'not found' }, { status: 404 } );
     }
 
-    throw redirect(301, url);
+    throw redirect(302, url);
 }
