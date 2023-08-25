@@ -24,7 +24,7 @@ export async function POST( { request, platform } ): Promise<Response> {
   }
 
   // check if slug is already in use
-  const existing = await platform?.env?.linkShortener.get(`link:${slug}`);
+  const existing = await platform?.env?.linkShortener.get(`${slug}`);
   if (existing) {
     return json( { error: 'slug is already in use' }, { status: 400 } );
   }
