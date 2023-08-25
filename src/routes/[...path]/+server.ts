@@ -1,14 +1,21 @@
 import { json, redirect } from '@sveltejs/kit';
 
-// read the json file at $lib/custom.json
-import custom from '$lib/custom.json';
-
 /** @type {import('$./types').RequestHandler}*/
-export function GET( { url } ) {
-    console.log(url.pathname);
-    if (custom.hasOwnProperty(url.pathname.replace(/^\//, ''))) {
-        const { href } = new URL(custom[url.pathname.replace(/^\//, '')]);
-        throw redirect(301, href);
+export async function GET( { params, platform } ) {
+    const slug = params.path.replace(/\//g, '');
+    const link = await platform?.env?.linkShortener.get(slug);
+    let url;
+  
+    // parse url and check if it is valid and rewrite it to https if it is not
+    try {
+      url = new URL(link).href.replace(/^http:\/\//, 'https://').toLocaleLowerCase();
+    } catch (e) {
+      url = null;
     }
-    return json({ found: false });
+
+    if (!url) {
+      return json( { error: 'not found' }, { status: 404 } );
+    }
+
+    throw redirect(301, url);
 }

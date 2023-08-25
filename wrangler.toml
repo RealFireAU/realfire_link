@@ -1,0 +1,3 @@
+kv_namespaces = [
+    { binding = "linkShortener", id="linkShortener" , preview_id = "cf70772f9a804064816f409b094ff01e" }
+]
